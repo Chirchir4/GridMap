@@ -6,7 +6,9 @@ import { FiSun } from "react-icons/fi";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleDarkMode } from '../../redux/globals.slice';
-// import { toggleDarkMode } from '../redux/globals.slice';
+import DropdownProfile from './DropdownProfile';
+import DropdownNotifications from './DropdownNotifications';
+import light from "../../assets/light.png"
 
 function Header() {
 
@@ -27,11 +29,12 @@ function Header() {
           {/* Header: Right side */}
           <div className="flex items-center gap-2 space-x-3">
           {darkMode ? (
-                            <FiSun onClick={() => handleToggleDarkMode()} className="cursor-pointer text-xl " />
+                                         <img src={light} height="30" width="30" onClick={() => handleToggleDarkMode()} className="cursor-pointer text-xl " />
                         ) : (
                             <BsFillMoonStarsFill onClick={() => handleToggleDarkMode()} className="cursor-pointer text-xl " />
                         )}
-        
+                        <DropdownNotifications/>
+        <DropdownProfile/>
             {/* <Notifications align="right" /> */}
          
             {/*  Divider */}

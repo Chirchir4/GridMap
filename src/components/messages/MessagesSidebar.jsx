@@ -3,6 +3,7 @@ import ChannelMenu from './ChannelMenu';
 import DirectMessages from './DirectMessages';
 import Channels from './Channels';
 import { useSelector } from 'react-redux';
+import { setReceiverID } from '../../redux/data.slice';
 
 function MessagesSidebar({ chats,msgSidebarOpen, setMsgSidebarOpen, selectConversation, messages }) {
    const { darkMode } = useSelector((state) => state.globals);

@@ -232,8 +232,8 @@ class MapView extends Component {
 
     return this.state.currentLocation !== null ? (
      <>
-       <Header/>
-       <div className="h-80">
+       {/* <Header/> */}
+       <div >
       <MapContainer
         center={[
           this.state.currentLocation.lat,
@@ -370,64 +370,7 @@ class MapView extends Component {
         </div> */}
       </MapContainer>
       </div>
-      <div
-          style={{
-            display:"flex",
-            flexDirection:"justify-between",
-            position: "absolute",
-            bottom: 0,
-            zIndex: 20000000,
-            width: "100%",
-            background: "white",
-          }}
-        >
-          <Grid container direction={"row"}>
-            <Grid item md={6}>
-              <Grid container justifyContent={"center"}>
-                <button
-                  id="logout"
-                  type="button"
-                  className="button-active-large"
-                  onClick={() => {
-                    this.toggleAccessiblity();
-                  }}
-                >
-                  Accessibility
-                </button>
-              </Grid>
-            </Grid>
-            <Grid item md={3}>
-              <Grid container justifyContent={"center"}>
-                <button
-                  id="logout"
-                  type="button"
-                  className="button-active-large"
-                  onClick={() => {
-                    window.location.href = "/chat";
-                  }}
-                >
-                  Chat
-                </button>
-              </Grid>
-            </Grid>
-            <Grid item md={3}>
-              <Grid container justifyContent={"center"}>
-                <button
-                  id="logout"
-                  type="button"
-                  className="button-active-large"
-                  onClick={() => {
-                    localStorage.removeItem("uid");
-                    localStorage.removeItem("userType");
-                    window.location.href = "/";
-                  }}
-                >
-                  Logout
-                </button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </div>
+     
       </>
     ) : (
       <div>Please Allow Location</div>
