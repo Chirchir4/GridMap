@@ -50,15 +50,14 @@ function MessagesBody({ messages, selectedUser }) {
                         width: '40px',
                         height: '40px',
                         borderRadius: '50%',
-                        backgroundColor: '#3cc351',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: '#fff',
+                        color: darkMode ? '#fff' : 'grey',
                         marginRight: '15px'
                      }}
                   >
-                     Me
+                     ✓
                   </div>
                ) : (
                   <div

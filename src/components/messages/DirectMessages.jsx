@@ -21,7 +21,21 @@ function DirectMessages({ setMsgSidebarOpen, selectConversation, messages }) {
             <li className="-mx-2" key={user.userId} onClick={() => selectConversation(user.userId)}>
                <button className="flex items-center justify-between w-full p-2 rounded" onClick={() => setMsgSidebarOpen(false)}>
                   <div className="flex items-center truncate">
-                     <img className="w-8 h-8 rounded-full mr-2" src={UserImage02} width="32" height="32" alt="User 02" />
+                     <div
+                        style={{
+                           width: '40px',
+                           height: '40px',
+                           borderRadius: '50%',
+                           display: 'flex',
+                           alignItems: 'center',
+                           justifyContent: 'center',
+                           color: '#fff',
+                           marginRight: '15px'
+                        }}
+                        className="bg-indigo-500"
+                     >
+                        {user.username[0].toUpperCase()}
+                     </div>
                      <div className="truncate">
                         <span className={`text-sm font-medium  ${darkMode ? 'text-slate-400' : 'text-slate-800'}`}>{user.username}</span>
                      </div>
