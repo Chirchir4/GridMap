@@ -1,10 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 function Channels({
   setMsgSidebarOpen
 }) {
-  const {darkMode}=useSelector((state)=>state.globals)
   return (
     <div className="mt-4">
       <div className="text-xs font-semibold text-slate-400 uppercase mb-3">Channels</div>
@@ -13,7 +11,7 @@ function Channels({
           <button className="flex items-center justify-between w-full p-2 rounded" onClick={() => setMsgSidebarOpen(false)}>
             <div className="flex items-center">
               <div className="truncate">
-                <span className={`text-sm font-medium  ${darkMode? "text-slate-400":"text-slate-800"}`}>#New Leads</span>
+                <span className="text-sm font-medium text-slate-800">#New Leads</span>
               </div>
             </div>
             <div className="flex items-center ml-2">
@@ -25,7 +23,7 @@ function Channels({
           <button className="flex items-center justify-between w-full p-2 rounded" onClick={() => setMsgSidebarOpen(false)}>
             <div className="flex items-center truncate">
               <div className="truncate">
-                <span className={`text-sm font-medium  ${darkMode? "text-slate-400":"text-slate-800"}`}>#Development Team</span>
+                <span className="text-sm font-medium text-slate-800">#Development Team</span>
               </div>
             </div>
           </button>
@@ -34,7 +32,7 @@ function Channels({
           <button className="flex items-center justify-between w-full p-2 rounded" onClick={() => setMsgSidebarOpen(false)}>
             <div className="flex items-center truncate">
               <div className="truncate">
-                <span className={`text-sm font-medium  ${darkMode? "text-slate-400":"text-slate-800"}`}>#Product Tips</span>
+                <span className="text-sm font-medium text-slate-800">#Product Tips</span>
               </div>
             </div>
           </button>

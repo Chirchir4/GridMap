@@ -5,7 +5,6 @@ import ChannelImage from '../../images/user-avatar-32.png';
 import ChannelImage01 from '../../images/channel-01.png';
 import ChannelImage02 from '../../images/channel-02.png';
 import ChannelImage03 from '../../images/channel-03.png';
-import { useSelector } from 'react-redux';
 
 function ChannelMenu() {
 
@@ -13,8 +12,7 @@ function ChannelMenu() {
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
-  const {darkMode}=useSelector((state)=>state.globals)
-  
+
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
@@ -37,7 +35,7 @@ function ChannelMenu() {
   });
 
   return (
-    <div className="relative ">
+    <div className="relative">
       <button
         ref={trigger}
         className="grow flex items-center truncate"
