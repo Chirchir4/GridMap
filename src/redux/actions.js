@@ -60,14 +60,15 @@ export const getAllUsers = async (dispatch) => {
       });
 };
 
-export async function writeUserData(userId, name, email, imageUrl) {
+export async function writeUserData(userId, name, email, imageUrl, userType) {
    const allUsers = await getUserList();
 
    allUsers.push({
       userId: userId,
       username: name,
       email: email,
-      profile_picture: imageUrl
+      profile_picture: imageUrl,
+      userType: userType
    });
    set(ref(database, 'users/'), allUsers);
 }

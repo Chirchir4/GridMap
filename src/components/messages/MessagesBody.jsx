@@ -1,63 +1,112 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 import User01 from '../../images/user-40-11.jpg';
 import User02 from '../../images/user-40-12.jpg';
-import ChatImage from '../../images/chat-image.jpg';
 
-function MessagesBody() {
-  return (
-    <div className="grow px-4 sm:px-6 md:px-5 py-6">
-      {/* Chat msg */}
-      <div className="flex items-start mb-4 last:mb-0">
-        <img className="rounded-full mr-4" src={User01} width="40" height="40" alt="User 01" />
-        <div>
-          <div className="text-sm bg-white text-slate-800 p-3 rounded-lg rounded-tl-none border border-slate-200 shadow-md mb-1">
-            Can anyone help? I have a question about Acme Professional
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="text-xs text-slate-500 font-medium">2:40 PM</div>
-          </div>
-        </div>
+import ChatImage from '../../images/chat-image.jpg';
+import { auth } from '../../functions/firebase';
+import { setMessageRead } from '../../redux/actions';
+
+function convertTimestampToTime(timestamp) {
+   const date = new Date(timestamp);
+   const hours = date.getHours();
+   const minutes = date.getMinutes();
+   const period = hours >= 12 ? 'PM' : 'AM';
+   const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+   const formattedTime = `${formattedHours}:${formattedMinutes} ${period}`;
+   return formattedTime;
+}
+
+const getFormattedDate = () => {
+   const today = moment();
+   const formattedDate = today.format('dddd, D MMMM');
+   return formattedDate;
+};
+
+function MessagesBody({ messages, selectedUser }) {
+   const [currentUser, setCurrentUser] = useState();
+   const { darkMode } = useSelector((state) => state.globals);
+   const { chats, users } = useSelector((state) => state.allData);
+
+   useEffect(() => {
+      console.log('selectedUser', selectedUser);
+      console.log('Users', users);
+      if (selectedUser) {
+         const user = users.find((user) => user.userId === selectedUser);
+         console.log('user', user);
+         setCurrentUser(user);
+      }
+   }, [selectedUser]);
+   const mapMessages = () => {
+      return messages[0]?.chats.map((message) => {
+         return (
+            <div className="flex items-start mb-4 last:mb-0">
+               {message.senderId === auth.currentUser.uid ? (
+                  <div
+                     style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        backgroundColor: '#3cc351',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#fff',
+                        marginRight: '15px'
+                     }}
+                  >
+                     Me
+                  </div>
+               ) : (
+                  <div
+                     style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#fff',
+                        marginRight: '15px'
+                     }}
+                     className="bg-indigo-500"
+                  >
+                     {currentUser && currentUser.username[0].toUpperCase()}
+                  </div>
+               )}
+               <div>
+                  <div
+                     className={`${
+                        message.senderId === auth.currentUser.uid
+                           ? 'text-sm bg-white text-slate-800 p-3 rounded-lg rounded-tl-none border border-slate-200 shadow-md mb-1'
+                           : 'text-sm bg-indigo-500 text-white p-3 rounded-lg rounded-tl-none border border-transparent shadow-md mb-1'
+                     } `}
+                  >
+                     {message.message}
+                  </div>
+                  <div className="flex items-center justify-between">
+                     <div className="text-xs text-slate-500 font-medium">{convertTimestampToTime(message.time)}</div>
+                  </div>
+               </div>
+            </div>
+         );
+      });
+   };
+
+   return (
+      <div className={`grow px-4 sm:px-6 md:px-5 py-6 ${darkMode ? 'bg-slate-900' : 'bg-white'}`}>
+         {mapMessages()}
+         {/* Date separator */}
+         <div className="flex justify-center">
+            <div className="inline-flex items-center justify-center text-xs font-medium px-2.5 py-1 bg-white border border-slate-200 rounded-full my-5">
+               {getFormattedDate()}
+            </div>
+         </div>
       </div>
-      {/* Chat msg */}
-      <div className="flex items-start mb-4 last:mb-0">
-        <img className="rounded-full mr-4" src={User02} width="40" height="40" alt="User 02" />
-        <div>
-          <div className="text-sm bg-indigo-500 text-white p-3 rounded-lg rounded-tl-none border border-transparent shadow-md mb-1">
-            Hey Dominik Lamakani 👋<br />
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 🙌
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="text-xs text-slate-500 font-medium">2:40 PM</div>
-            <svg className="w-5 h-3 shrink-0 fill-current text-emerald-500" viewBox="0 0 20 12">
-              <path d="M10.402 6.988l1.586 1.586L18.28 2.28a1 1 0 011.414 1.414l-7 7a1 1 0 01-1.414 0L8.988 8.402l-2.293 2.293a1 1 0 01-1.414 0l-3-3A1 1 0 013.695 6.28l2.293 2.293L12.28 2.28a1 1 0 011.414 1.414l-3.293 3.293z" />
-            </svg>
-          </div>
-        </div>
-      </div>
-      {/* Date separator */}
-      <div className="flex justify-center">
-        <div className="inline-flex items-center justify-center text-xs font-medium px-2.5 py-1 bg-white border border-slate-200 rounded-full my-5">
-          Tuesday, 20 January
-          </div>
-      </div>
-      {/* Chat msg */}
-      <div className="flex items-start mb-4 last:mb-0">
-        <img className="rounded-full mr-4" src={User02} width="40" height="40" alt="User 02" />
-        <div>
-          <div className="text-sm bg-indigo-500 text-white p-3 rounded-lg rounded-tl-none border border-transparent shadow-md mb-1">
-            Can you join <a className="font-medium" href="#0">@dominik</a>? <a className="underline" href="#0">https://meet.google.com/haz-r3gt-idj</a>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="text-xs text-slate-500 font-medium">10:15 AM</div>
-            <svg className="w-3 h-3 shrink-0 fill-current text-slate-400" viewBox="0 0 12 12">
-              <path d="M10.28 1.28L3.989 7.575 1.695 5.28A1 1 0 00.28 6.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 1.28z" />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+   );
 }
 
 export default MessagesBody;
