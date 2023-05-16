@@ -1,78 +1,78 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { getData, saveData } from '../functions/functions';
-import { writeUserData } from '../redux/actions';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth } from 'firebase/auth'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { getData, saveData } from '../functions/functions'
+import { writeUserData } from '../redux/actions'
 
 function Signin() {
-   const [userType, setUserType] = useState('standard');
-   const [email, setEmail] = useState('');
-   const [userName, setUserName] = useState('');
-   const [password, setPassword] = useState('');
-   const [mode, setMode] = useState('login');
-   const navigate = useNavigate();
-   const auth = getAuth();
+   const [userType, setUserType] = useState('standard')
+   const [email, setEmail] = useState('')
+   const [userName, setUserName] = useState('')
+   const [password, setPassword] = useState('')
+   const [mode, setMode] = useState('login')
+   const navigate = useNavigate()
+   const auth = getAuth()
    const registerUser = () => {
       createUserWithEmailAndPassword(auth, email, password)
          .then(async (res) => {
-            writeUserData(res.user.uid, userName, email, 'http', userType);
+            writeUserData(res.user.uid, userName, email, 'http', userType)
             saveData('users', res.user.uid, {
                userType: userType,
                email: email,
                uid: res.user.uid,
                vistedLocations: []
             }).then(() => {
-               localStorage.setItem('uid', res.user.uid);
-               localStorage.setItem('userType', userType);
-               navigate('/map');
+               localStorage.setItem('uid', res.user.uid)
+               localStorage.setItem('userType', userType)
+               navigate('/map')
                // window.location.href = "/map"
-            });
+            })
          })
          .catch(function (error) {
-            alert(error.message);
-         });
-   };
+            alert(error.message)
+         })
+   }
 
    const loginUser = (e) => {
-      e.preventDefault();
+      e.preventDefault()
       signInWithEmailAndPassword(auth, email, password).then((res) => {
-         localStorage.setItem('uid', res.user.uid);
+         localStorage.setItem('uid', res.user.uid)
          getData('users', res.user.uid).then((doc) => {
-            const user = doc.data();
-            localStorage.setItem('userType', user.userType);
+            const user = doc.data()
+            localStorage.setItem('userType', user.userType)
 
-            navigate('/map');
+            navigate('/map')
             // window.location.href = "/map"
-         });
-      });
-      console.log('loging in', email, password);
-   };
+         })
+      })
+      console.log('loging in', email, password)
+   }
 
    const onSubMit = (e) => {
-      e.preventDefault();
+      e.preventDefault()
       if (mode === 'login') {
-         loginUser(e);
+         loginUser(e)
       } else {
-         registerUser(e);
+         registerUser(e)
       }
-   };
+   }
 
    const toggleMode = () => {
       if (mode === 'login') {
-         setMode('register');
+         setMode('register')
       } else {
-         setMode('login');
+         setMode('login')
       }
-   };
+   }
 
    useEffect(() => {
       // console.log("=>>",auth?.currentUser?.uid)
       if (auth.currentUser) {
-         localStorage.setItem('uid', auth.currentUser.uid);
+         localStorage.setItem('uid', auth.currentUser.uid)
          // window.location.href = "/map"
-         navigate('/map');
+         navigate('/map')
       }
-   }, []);
+   }, [])
 
    return (
       <main className="bg-white">
@@ -100,7 +100,7 @@ function Signin() {
                                  id="logout"
                                  type="button"
                                  onClick={() => {
-                                    setUserType('standard');
+                                    setUserType('standard')
                                  }}
                                  className={userType === 'standard' ? 'button-active' : 'button'}
                               >
@@ -110,7 +110,7 @@ function Signin() {
                                  id="logout"
                                  type="button"
                                  onClick={() => {
-                                    setUserType('admin');
+                                    setUserType('admin')
                                  }}
                                  className={userType === 'admin' ? 'button-active' : 'button'}
                               >
@@ -129,7 +129,7 @@ function Signin() {
                                     type="username"
                                     value={userName}
                                     onChange={(e) => {
-                                       setUserName(e.target.value);
+                                       setUserName(e.target.value)
                                     }}
                                  />
                               </div>
@@ -145,7 +145,7 @@ function Signin() {
                                  type="email"
                                  value={email}
                                  onChange={(e) => {
-                                    setEmail(e.target.value);
+                                    setEmail(e.target.value)
                                  }}
                               />
                            </div>
@@ -160,7 +160,7 @@ function Signin() {
                                  autoComplete="on"
                                  value={password}
                                  onChange={(e) => {
-                                    setPassword(e.target.value);
+                                    setPassword(e.target.value)
                                  }}
                               />
                            </div>
@@ -185,7 +185,7 @@ function Signin() {
                            <Link
                               className="font-medium text-indigo-500 hover:text-indigo-600"
                               onClick={() => {
-                                 toggleMode();
+                                 toggleMode()
                               }}
                            >
                               {mode !== 'login' ? 'Sign In' : 'Sign Up'}
@@ -197,7 +197,7 @@ function Signin() {
             </div>
          </div>
       </main>
-   );
+   )
 }
 
-export default Signin;
+export default Signin

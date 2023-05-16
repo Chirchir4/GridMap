@@ -12,4 +12,4 @@ module.exports = {
       'no-unused-vars': 'error',
       'single-quote': 'error'
    }
-};
+}
